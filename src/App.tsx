@@ -800,7 +800,7 @@ function AppContent() {
     try {
       const endpoint = progDataType === 'cota' ? 'api_historico' : 'api_chuva';
       
-      const docSnap = await getDoc(doc(db, endpoint, progStationId));
+      const docSnap = await getDoc(doc(db, endpoint, String(progStationId)));
       if (!docSnap.exists()) {
         throw new Error(`A estação não possui dados históricos de ${progDataType === 'cota' ? 'Nível (Cota)' : 'Chuva'} na base.`);
       }
