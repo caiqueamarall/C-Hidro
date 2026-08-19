@@ -61,7 +61,7 @@ export async function fetchHistoricoEstacao(codigoEstacao: number, rangeDias: 'D
       params.append('Data de Busca (yyyy-MM-dd)', dataBusca);
     }
 
-    const response = await fetch('https://corsproxy.io/?url=' + encodeURIComponent('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString()), {
+    let response = await fetch('https://corsproxy.io/?url=' + encodeURIComponent('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString()), {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -69,7 +69,17 @@ export async function fetchHistoricoEstacao(codigoEstacao: number, rangeDias: 'D
     });
 
     if (!response.ok) {
-      console.error('Erro ao buscar histórico da ANA:', response.status);
+      console.warn('corsproxy.io falhou, tentando fallback proxy...');
+      response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString()), {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    }
+
+    if (!response.ok) {
+      console.error('Erro ao buscar histórico da ANA após fallbacks:', response.status);
       return [];
     }
 
