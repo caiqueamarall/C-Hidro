@@ -1717,30 +1717,28 @@ function AppContent() {
                     />
                     <Legend 
                       wrapperStyle={{ paddingTop: '20px' }}
-                      formatter={(value, entry: any) => {
-                        const isAnomaly = String(value).includes('Anomalia') || String(value).includes('Normalidade');
-                        const textOutline = "1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px 2px 2px rgba(0,0,0,0.5)";
-                        return <span style={{ color: entry?.color, textShadow: isAnomaly ? textOutline : 'none', fontWeight: isAnomaly ? 'bold' : 'normal' }}>{value}</span>;
+                      formatter={(value) => {
+                        return <span style={{ color: '#334155', fontWeight: '500', fontSize: '13px' }}>{value}</span>;
                       }}
                     />
                     
                     {/* Absolute Range Areas for Anomalies */}
-                    <Area type="monotone" dataKey="negExtrema" stroke="#ff9999" strokeWidth={1} fill="#ffb3b3" fillOpacity={0.4} name="Anomalia negativa extrema" activeDot={false} />
-                    <Area type="monotone" dataKey="negSevera" stroke="#ffb3b3" strokeWidth={1} fill="#ffcccc" fillOpacity={0.4} name="Anomalia negativa severa" activeDot={false} />
-                    <Area type="monotone" dataKey="negModerada" stroke="#ffcccc" strokeWidth={1} fill="#ffe0e0" fillOpacity={0.4} name="Anomalia negativa moderada" activeDot={false} />
-                    <Area type="monotone" dataKey="negLeve" stroke="#ffe0e0" strokeWidth={1} fill="#fff0f0" fillOpacity={0.4} name="Anomalia negativa leve" activeDot={false} />
+                    <Area type="monotone" dataKey="negExtrema" legendType="plainline" stroke="#ff9999" strokeWidth={1} fill="#ffb3b3" fillOpacity={0.4} name="Anomalia negativa extrema" activeDot={false} />
+                    <Area type="monotone" dataKey="negSevera" legendType="plainline" stroke="#ffb3b3" strokeWidth={1} fill="#ffcccc" fillOpacity={0.4} name="Anomalia negativa severa" activeDot={false} />
+                    <Area type="monotone" dataKey="negModerada" legendType="plainline" stroke="#ffcccc" strokeWidth={1} fill="#ffe0e0" fillOpacity={0.4} name="Anomalia negativa moderada" activeDot={false} />
+                    <Area type="monotone" dataKey="negLeve" legendType="plainline" stroke="#ffe0e0" strokeWidth={1} fill="#fff0f0" fillOpacity={0.4} name="Anomalia negativa leve" activeDot={false} />
                     
-                    <Area type="monotone" dataKey="normal" stroke="#e5e7eb" strokeWidth={1} fill="#f3f4f6" fillOpacity={0.5} name="Normalidade (15-85%)" activeDot={false} />
+                    <Area type="monotone" dataKey="normal" legendType="plainline" stroke="#e5e7eb" strokeWidth={1} fill="#f3f4f6" fillOpacity={0.5} name="Normalidade" activeDot={false} />
                     
-                    <Area type="monotone" dataKey="posLeve" stroke="#e6f2ff" strokeWidth={1} fill="#f2f9ff" fillOpacity={0.4} name="Anomalia positiva leve" activeDot={false} />
-                    <Area type="monotone" dataKey="posModerada" stroke="#cce6ff" strokeWidth={1} fill="#e6f2ff" fillOpacity={0.4} name="Anomalia positiva moderada" activeDot={false} />
-                    <Area type="monotone" dataKey="posSevera" stroke="#a8d4ff" strokeWidth={1} fill="#cce6ff" fillOpacity={0.4} name="Anomalia positiva severa" activeDot={false} />
-                    <Area type="monotone" dataKey="posExtrema" stroke="#80bfff" strokeWidth={1} fill="#a8d4ff" fillOpacity={0.4} name="Anomalia positiva extrema" activeDot={false} />
+                    <Area type="monotone" dataKey="posLeve" legendType="plainline" stroke="#e6f2ff" strokeWidth={1} fill="#f2f9ff" fillOpacity={0.4} name="Anomalia positiva leve" activeDot={false} />
+                    <Area type="monotone" dataKey="posModerada" legendType="plainline" stroke="#cce6ff" strokeWidth={1} fill="#e6f2ff" fillOpacity={0.4} name="Anomalia positiva moderada" activeDot={false} />
+                    <Area type="monotone" dataKey="posSevera" legendType="plainline" stroke="#a8d4ff" strokeWidth={1} fill="#cce6ff" fillOpacity={0.4} name="Anomalia positiva severa" activeDot={false} />
+                    <Area type="monotone" dataKey="posExtrema" legendType="plainline" stroke="#80bfff" strokeWidth={1} fill="#a8d4ff" fillOpacity={0.4} name="Anomalia positiva extrema" activeDot={false} />
 
                     
                     {/* Lines drawn last so they appear ON TOP of scatters */}
-                    <Line type="monotone" dataKey="media" stroke="#475569" strokeWidth={2} strokeDasharray="6 6" name="Média Histórica" dot={false} activeDot={false} legendType="line" connectNulls={true} />
-                    <Line type="monotone" dataKey="observado" stroke="#dc2626" strokeWidth={3} name="Observado (Real)" dot={{ r: 5, fill: '#dc2626', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 7, fill: '#dc2626', stroke: '#fff', strokeWidth: 2 }} legendType="line" connectNulls={true} />
+                    <Line type="monotone" dataKey="media" stroke="#475569" strokeWidth={2} strokeDasharray="6 6" name="Média Histórica" dot={false} activeDot={false} legendType="plainline" connectNulls={true} />
+                    <Line type="monotone" dataKey="observado" stroke="#dc2626" strokeWidth={3} name="Observado (Real)" dot={{ r: 5, fill: '#dc2626', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 7, fill: '#dc2626', stroke: '#fff', strokeWidth: 2 }} legendType="circle" connectNulls={true} />
                   </ComposedChart>
                 )}
               </ResponsiveContainer>
