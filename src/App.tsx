@@ -1019,16 +1019,16 @@ function AppContent() {
           observado: !isFuture && obsValue !== null ? Number(obsValue.toFixed(2)) : null,
           modelo1: mod1 !== null ? Number(mod1.toFixed(2)) : null,
           modelo2: mod2 !== null ? Number(mod2.toFixed(2)) : null,
-          // Valores para formar os blocos (tamanho do bloco no eixo Y)
-          negExtrema: Number(heightExtrema.toFixed(2)),
-          negSevera: Number(heightBand.toFixed(2)),
-          negModerada: Number(heightBand.toFixed(2)),
-          negLeve: Number(heightBand.toFixed(2)),
-          normal: Number((1.0 * std).toFixed(2)),
-          posLeve: Number(heightBand.toFixed(2)),
-          posModerada: Number(heightBand.toFixed(2)),
-          posSevera: Number(heightBand.toFixed(2)),
-          posExtrema: Number((1.0 * std).toFixed(2)),
+          // Valores absolutos para formar os blocos de Range Area (sem stackId)
+          negExtrema: [Number((media - 3.0 * std).toFixed(2)), Number((media - 2.0 * std).toFixed(2))],
+          negSevera: [Number((media - 2.0 * std).toFixed(2)), Number((media - 1.5 * std).toFixed(2))],
+          negModerada: [Number((media - 1.5 * std).toFixed(2)), Number((media - 1.0 * std).toFixed(2))],
+          negLeve: [Number((media - 1.0 * std).toFixed(2)), Number((media - 0.5 * std).toFixed(2))],
+          normal: [Number((media - 0.5 * std).toFixed(2)), Number((media + 0.5 * std).toFixed(2))],
+          posLeve: [Number((media + 0.5 * std).toFixed(2)), Number((media + 1.0 * std).toFixed(2))],
+          posModerada: [Number((media + 1.0 * std).toFixed(2)), Number((media + 1.5 * std).toFixed(2))],
+          posSevera: [Number((media + 1.5 * std).toFixed(2)), Number((media + 2.0 * std).toFixed(2))],
+          posExtrema: [Number((media + 2.0 * std).toFixed(2)), Number((media + 3.0 * std).toFixed(2))],
           // Valores reais (limiares) para mostrar no Tooltip corretamente
           lim_negExtrema: Number(heightExtrema.toFixed(2)),
           lim_negSevera: Number((media - 1.5 * std).toFixed(2)),
@@ -1704,18 +1704,18 @@ function AppContent() {
                       }}
                     />
                     
-                    {/* Stacked Areas for Anomalies */}
-                    <Area type="monotone" dataKey="negExtrema" stackId="1" stroke="#ff9999" strokeWidth={1} fill="#ffb3b3" fillOpacity={0.4} name="Anomalia negativa extrema" activeDot={false} />
-                    <Area type="monotone" dataKey="negSevera" stackId="1" stroke="#ffb3b3" strokeWidth={1} fill="#ffcccc" fillOpacity={0.4} name="Anomalia negativa severa" activeDot={false} />
-                    <Area type="monotone" dataKey="negModerada" stackId="1" stroke="#ffcccc" strokeWidth={1} fill="#ffe0e0" fillOpacity={0.4} name="Anomalia negativa moderada" activeDot={false} />
-                    <Area type="monotone" dataKey="negLeve" stackId="1" stroke="#ffe0e0" strokeWidth={1} fill="#fff0f0" fillOpacity={0.4} name="Anomalia negativa leve" activeDot={false} />
+                    {/* Absolute Range Areas for Anomalies */}
+                    <Area type="monotone" dataKey="negExtrema" stroke="#ff9999" strokeWidth={1} fill="#ffb3b3" fillOpacity={0.4} name="Anomalia negativa extrema" activeDot={false} />
+                    <Area type="monotone" dataKey="negSevera" stroke="#ffb3b3" strokeWidth={1} fill="#ffcccc" fillOpacity={0.4} name="Anomalia negativa severa" activeDot={false} />
+                    <Area type="monotone" dataKey="negModerada" stroke="#ffcccc" strokeWidth={1} fill="#ffe0e0" fillOpacity={0.4} name="Anomalia negativa moderada" activeDot={false} />
+                    <Area type="monotone" dataKey="negLeve" stroke="#ffe0e0" strokeWidth={1} fill="#fff0f0" fillOpacity={0.4} name="Anomalia negativa leve" activeDot={false} />
                     
-                    <Area type="monotone" dataKey="normal" stackId="1" stroke="#e5e7eb" strokeWidth={1} fill="#f3f4f6" fillOpacity={0.5} name="Normalidade (15-85%)" activeDot={false} />
+                    <Area type="monotone" dataKey="normal" stroke="#e5e7eb" strokeWidth={1} fill="#f3f4f6" fillOpacity={0.5} name="Normalidade (15-85%)" activeDot={false} />
                     
-                    <Area type="monotone" dataKey="posLeve" stackId="1" stroke="#e6f2ff" strokeWidth={1} fill="#f2f9ff" fillOpacity={0.4} name="Anomalia positiva leve" activeDot={false} />
-                    <Area type="monotone" dataKey="posModerada" stackId="1" stroke="#cce6ff" strokeWidth={1} fill="#e6f2ff" fillOpacity={0.4} name="Anomalia positiva moderada" activeDot={false} />
-                    <Area type="monotone" dataKey="posSevera" stackId="1" stroke="#a8d4ff" strokeWidth={1} fill="#cce6ff" fillOpacity={0.4} name="Anomalia positiva severa" activeDot={false} />
-                    <Area type="monotone" dataKey="posExtrema" stackId="1" stroke="#80bfff" strokeWidth={1} fill="#a8d4ff" fillOpacity={0.4} name="Anomalia positiva extrema" activeDot={false} />
+                    <Area type="monotone" dataKey="posLeve" stroke="#e6f2ff" strokeWidth={1} fill="#f2f9ff" fillOpacity={0.4} name="Anomalia positiva leve" activeDot={false} />
+                    <Area type="monotone" dataKey="posModerada" stroke="#cce6ff" strokeWidth={1} fill="#e6f2ff" fillOpacity={0.4} name="Anomalia positiva moderada" activeDot={false} />
+                    <Area type="monotone" dataKey="posSevera" stroke="#a8d4ff" strokeWidth={1} fill="#cce6ff" fillOpacity={0.4} name="Anomalia positiva severa" activeDot={false} />
+                    <Area type="monotone" dataKey="posExtrema" stroke="#80bfff" strokeWidth={1} fill="#a8d4ff" fillOpacity={0.4} name="Anomalia positiva extrema" activeDot={false} />
 
                     
                     {/* Lines drawn last so they appear ON TOP of scatters */}
