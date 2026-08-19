@@ -2,8 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, WMSTileLayer, Marker, Popup, ZoomControl, LayersControl, useMap, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
-// @ts-ignore
-import kmzFileUrl from '../../Com4DN.kmz';
+import kmzFileUrl from './assets/Com4DN.kmz';
 import { LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine, ReferenceArea, ComposedChart, Area, Scatter, Legend } from 'recharts';
 import { Settings, Download, Search, Layers, X, LineChart as LineChartIcon, RefreshCw, FileText, Activity, AlertTriangle, Table, Droplets, Map as MapIcon, Loader2, CloudRain, CloudLightning, Sun, HelpCircle, TrendingDown, Equal, TrendingUp, Menu, Calendar, Info, Clock, Waves } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
