@@ -721,21 +721,18 @@ function AppContent() {
           const processed = processAnaData(items);
           setHistoricalData(processed);
         } else {
-          const mockItems = [];
-          const today = new Date();
-          let currentCota = 500;
-          for (let i = 15; i >= 0; i--) {
-            const d = new Date(today);
-            d.setDate(d.getDate() - i);
-            const dateStr = d.toISOString().split('T')[0] + ' 00:00:00.0';
-            currentCota += (Math.random() * 4 - 1.5);
-            mockItems.push({
-              Cota_Sensor: currentCota.toFixed(2),
-              Vazao_Sensor: (currentCota * 1.5).toFixed(2),
-              Data_Hora_Medicao: dateStr
-            });
+          // Em vez de dados falsos, usamos a cota mais recente disponível no mapa (se existir)
+          const currentStation = estacoes.find(e => String(e.codigo) === String(selectedStationId));
+          if (currentStation && currentStation.cotaUltimaMedicao) {
+            setHistoricalData([{
+              date: new Date().toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'}),
+              cota: Number((currentStation.cotaUltimaMedicao * 100).toFixed(2)),
+              vazao: 0,
+              variacao: 0
+            }]);
+          } else {
+            setHistoricalData([]);
           }
-          setHistoricalData(processAnaData(mockItems));
         }
       })
       .catch(err => {
