@@ -834,15 +834,12 @@ function AppContent() {
       let telemetryData: any[] = [];
       try {
         const d1 = new Date();
-        const d2 = new Date(); d2.setDate(d2.getDate() - 30);
-        const d3 = new Date(); d3.setDate(d3.getDate() - 60);
         
-        const p1 = fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d1.toISOString().split('T')[0]);
-        const p2 = fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d2.toISOString().split('T')[0]);
-        const p3 = fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d3.toISOString().split('T')[0]);
+        // Em vez de fazer 3 requisições simultâneas que podem causar bloqueio no CORS proxy, 
+        // fazemos uma única requisição pegando os últimos 90 dias.
+        const resTele = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_90', d1.toISOString().split('T')[0]);
         
-        const resTele = await Promise.all([p1, p2, p3]);
-        telemetryData = [...(resTele[0]||[]), ...(resTele[1]||[]), ...(resTele[2]||[])];
+        telemetryData = resTele || [];
       } catch(e) {
         console.error("Telemetry failed", e);
       }
