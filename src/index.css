@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.leaflet-interactive:focus,
+path:focus,
+svg:focus,
+g:focus,
+.leaflet-container:focus {
+  outline: none !important;
+}
+
+.kmz-non-interactive,
+.kmz-non-interactive * {
+  pointer-events: none !important;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f8fafc;
+}
+
+/* Customizações do Leaflet para ficar moderno */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.custom-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  width: auto !important;
+}
+
+/* Esconder o botão de fechar nativo do Leaflet, pois criamos um customizado no App.tsx */
+.custom-popup .leaflet-popup-close-button {
+  display: none !important;
+}

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Servidor Frontend + Nginx Proxy
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sipam-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+  # Servidor Python API (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sipam-backend
+    environment:
+      # Essas variáveis devem apontar para os nomes dos containers dentro da rede docker
+      - MONGO_URL=mongodb://root:root@db-mongo:27017
+      - POSTGRES_URL=postgresql://postgres:postgres@db-postgres:5432/antigravity
+    depends_on:
+      - db-mongo
+      - db-postgres
+    restart: always
+
+  # Bancos de dados reaproveitados da sua configuração original
+  db-postgres:
+    image: postgis/postgis:15-3.3
+    container_name: sipam-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=antigravity
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    restart: always
+
+  db-mongo:
+    image: mongo:6.0
+    container_name: sipam-mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - mongo_data_prod:/data/db
+    restart: always
+
+volumes:
+  postgres_data_prod:
+  mongo_data_prod:
