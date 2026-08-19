@@ -1044,6 +1044,26 @@ function AppContent() {
         });
       }
       
+      // Post-process para garantir que as extremidades pintem até o topo/fundo do gráfico sem limites extremos
+      let rawMin = Infinity;
+      let rawMax = -Infinity;
+      rollingClim.forEach(d => {
+         const minVal = Math.min(d.negExtrema[0], d.observado ?? Infinity);
+         const maxVal = Math.max(d.posExtrema[1], d.observado ?? -Infinity);
+         if (minVal < rawMin) rawMin = minVal;
+         if (maxVal > rawMax) rawMax = maxVal;
+      });
+      
+      // Arredonda para a centena mais próxima
+      const yAxisMin = Math.floor(rawMin / 100) * 100;
+      const yAxisMax = Math.ceil(rawMax / 100) * 100;
+      
+      rollingClim.forEach(d => {
+         // Força as bandas extremas a tocarem exatamente os limites do Y-axis
+         d.negExtrema[0] = yAxisMin;
+         d.posExtrema[1] = yAxisMax;
+      });
+      
       setProgData(rollingClim);
       setProgProgress(100);
     } catch (err: any) {
@@ -1667,7 +1687,7 @@ function AppContent() {
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                     <XAxis dataKey="mes" tick={{ fontSize: 13, fill: '#64748b', fontWeight: 600 }} axisLine={false} tickLine={false} dy={15} />
                     <YAxis 
-                      domain={[(dataMin: number) => Math.floor(dataMin / 100) * 100, (dataMax: number) => Math.ceil(dataMax / 100) * 100]} 
+                      domain={['dataMin', 'dataMax']} 
                       tick={{ fontSize: 13, fill: '#64748b' }} 
                       axisLine={false} 
                       tickLine={false} 
