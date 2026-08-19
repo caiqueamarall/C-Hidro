@@ -1705,17 +1705,17 @@ function AppContent() {
                     />
                     
                     {/* Stacked Areas for Anomalies */}
-                    <Area type="monotone" dataKey="negExtrema" stackId="1" stroke="none" fill="#ffb3b3" fillOpacity={0.4} name="Anomalia negativa extrema" activeDot={false} />
-                    <Area type="monotone" dataKey="negSevera" stackId="1" stroke="none" fill="#ffcccc" fillOpacity={0.4} name="Anomalia negativa severa" activeDot={false} />
-                    <Area type="monotone" dataKey="negModerada" stackId="1" stroke="none" fill="#ffe0e0" fillOpacity={0.4} name="Anomalia negativa moderada" activeDot={false} />
-                    <Area type="monotone" dataKey="negLeve" stackId="1" stroke="none" fill="#fff0f0" fillOpacity={0.4} name="Anomalia negativa leve" activeDot={false} />
+                    <Area type="monotone" dataKey="negExtrema" stackId="1" stroke="#ff9999" strokeWidth={1} fill="#ffb3b3" fillOpacity={0.4} name="Anomalia negativa extrema" activeDot={false} />
+                    <Area type="monotone" dataKey="negSevera" stackId="1" stroke="#ffb3b3" strokeWidth={1} fill="#ffcccc" fillOpacity={0.4} name="Anomalia negativa severa" activeDot={false} />
+                    <Area type="monotone" dataKey="negModerada" stackId="1" stroke="#ffcccc" strokeWidth={1} fill="#ffe0e0" fillOpacity={0.4} name="Anomalia negativa moderada" activeDot={false} />
+                    <Area type="monotone" dataKey="negLeve" stackId="1" stroke="#ffe0e0" strokeWidth={1} fill="#fff0f0" fillOpacity={0.4} name="Anomalia negativa leve" activeDot={false} />
                     
-                    <Area type="monotone" dataKey="normal" stackId="1" stroke="none" fill="#f3f4f6" fillOpacity={0.5} name="Normalidade (15-85%)" activeDot={false} />
+                    <Area type="monotone" dataKey="normal" stackId="1" stroke="#e5e7eb" strokeWidth={1} fill="#f3f4f6" fillOpacity={0.5} name="Normalidade (15-85%)" activeDot={false} />
                     
-                    <Area type="monotone" dataKey="posLeve" stackId="1" stroke="none" fill="#f2f9ff" fillOpacity={0.4} name="Anomalia positiva leve" activeDot={false} />
-                    <Area type="monotone" dataKey="posModerada" stackId="1" stroke="none" fill="#e6f2ff" fillOpacity={0.4} name="Anomalia positiva moderada" activeDot={false} />
-                    <Area type="monotone" dataKey="posSevera" stackId="1" stroke="none" fill="#cce6ff" fillOpacity={0.4} name="Anomalia positiva severa" activeDot={false} />
-                    <Area type="monotone" dataKey="posExtrema" stackId="1" stroke="none" fill="#a8d4ff" fillOpacity={0.4} name="Anomalia positiva extrema" activeDot={false} />
+                    <Area type="monotone" dataKey="posLeve" stackId="1" stroke="#e6f2ff" strokeWidth={1} fill="#f2f9ff" fillOpacity={0.4} name="Anomalia positiva leve" activeDot={false} />
+                    <Area type="monotone" dataKey="posModerada" stackId="1" stroke="#cce6ff" strokeWidth={1} fill="#e6f2ff" fillOpacity={0.4} name="Anomalia positiva moderada" activeDot={false} />
+                    <Area type="monotone" dataKey="posSevera" stackId="1" stroke="#a8d4ff" strokeWidth={1} fill="#cce6ff" fillOpacity={0.4} name="Anomalia positiva severa" activeDot={false} />
+                    <Area type="monotone" dataKey="posExtrema" stackId="1" stroke="#80bfff" strokeWidth={1} fill="#a8d4ff" fillOpacity={0.4} name="Anomalia positiva extrema" activeDot={false} />
 
                     
                     {/* Lines drawn last so they appear ON TOP of scatters */}
