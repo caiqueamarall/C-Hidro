@@ -834,12 +834,16 @@ function AppContent() {
       let telemetryData: any[] = [];
       try {
         const d1 = new Date();
+        const d2 = new Date(); d2.setDate(d2.getDate() - 30);
+        const d3 = new Date(); d3.setDate(d3.getDate() - 60);
         
-        // Em vez de fazer 3 requisições simultâneas que podem causar bloqueio no CORS proxy, 
-        // fazemos uma única requisição pegando os últimos 90 dias.
-        const resTele = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_90', d1.toISOString().split('T')[0]);
+        // Fazemos as requisições sequencialmente para não engatilhar o bloqueio do corsproxy.io
+        // (que ocorre quando enviamos 3 requisições simultâneas) e manter os parâmetros que sabemos que a API da ANA aceita.
+        const p1 = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d1.toISOString().split('T')[0]);
+        const p2 = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d2.toISOString().split('T')[0]);
+        const p3 = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d3.toISOString().split('T')[0]);
         
-        telemetryData = resTele || [];
+        telemetryData = [...(p1||[]), ...(p2||[]), ...(p3||[])];
       } catch(e) {
         console.error("Telemetry failed", e);
       }
