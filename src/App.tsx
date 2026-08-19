@@ -5,6 +5,15 @@ import L from 'leaflet';
 import kmzFileUrl from './assets/Com4DN.kmz';
 import { LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine, ReferenceArea, ComposedChart, Area, Scatter, Legend } from 'recharts';
 import { Settings, Download, Search, Layers, X, LineChart as LineChartIcon, RefreshCw, FileText, Activity, AlertTriangle, Table, Droplets, Map as MapIcon, Loader2, CloudRain, CloudLightning, Sun, HelpCircle, TrendingDown, Equal, TrendingUp, Menu, Calendar, Info, Clock, Waves } from 'lucide-react';
+
+const CHidroLogo = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    {/* Letra C */}
+    <path d="M 11 7 A 7 7 0 1 0 11 21" />
+    {/* Gota transpassando */}
+    <path d="M14 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C8 11.1 7 13 7 15a7 7 0 0 0 7 7z" />
+  </svg>
+);
 import { motion, AnimatePresence } from 'framer-motion';
 import { authenticateAna, fetchHistoricoEstacao, downloadSerieHistorica, gerarClimatologiaDaEstacao } from './anaApi';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
@@ -1048,10 +1057,9 @@ function AppContent() {
       {/* Primary Vertical Nav */}
       <nav className="w-24 bg-[#f8f9fa] flex flex-col h-full border-r border-slate-200 z-30">
         <div className="h-28 bg-[#424242] flex flex-col items-center justify-center p-2 shadow-md">
-          <Droplets className="w-10 h-10 text-[#0cd48c]" />
+          <CHidroLogo className="w-10 h-10 text-[#0cd48c]" />
           <div className="text-white text-center leading-tight mt-1">
-            <span className="text-[13px] font-light">C-</span><br/>
-            <span className="text-[14px] font-bold">Hidro</span>
+            <span className="text-[14px] font-bold"><span className="font-light">C-</span>Hidro</span>
           </div>
         </div>
 
