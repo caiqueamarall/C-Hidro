@@ -61,25 +61,30 @@ export async function fetchHistoricoEstacao(codigoEstacao: number, rangeDias: 'D
       params.append('Data de Busca (yyyy-MM-dd)', dataBusca);
     }
 
-    let response = await fetch('https://corsproxy.io/?url=' + encodeURIComponent('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString()), {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const urlDestino = 'https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString();
+    const proxyList = [
+      'https://corsproxy.io/?url=',
+      'https://api.cors.lol/?url=',
+      'https://thingproxy.freeboard.io/fetch/'
+    ];
 
-    if (!response.ok) {
-      console.warn('corsproxy.io falhou, tentando fallback proxy...');
-      response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString()), {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+    let response = null;
+    for (const proxy of proxyList) {
+      try {
+        response = await fetch(proxy + encodeURIComponent(urlDestino), {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (response.ok) break; // Sucesso, sai do loop
+      } catch (e) {
+        console.warn(`Proxy ${proxy} falhou, tentando o próximo...`);
+      }
     }
 
-    if (!response.ok) {
-      console.error('Erro ao buscar histórico da ANA após fallbacks:', response.status);
+    if (!response || !response.ok) {
+      console.error('Erro ao buscar histórico da ANA após tentar todos os proxies:', response?.status);
       return [];
     }
 

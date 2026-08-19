@@ -833,11 +833,18 @@ function AppContent() {
       setProgProgress(90);
       let telemetryData: any[] = [];
       try {
-        // Pega os últimos 90 dias a partir de hoje (sem especificar Data de Busca).
-        // A API da ANA costuma falhar ou dar timeout quando combinamos DIAS_90 com Data de Busca.
-        const resTele = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_90');
+        const d1 = new Date();
+        const d2 = new Date(); d2.setDate(d2.getDate() - 30);
+        const d3 = new Date(); d3.setDate(d3.getDate() - 60);
         
-        telemetryData = resTele || [];
+        // Fazemos 3 requisições de 30 dias sequencialmente. 
+        // Foi comprovado que a API da ANA responde bem a blocos de 30 dias com Data de Busca especificada.
+        // Fazer sequencial evita bloqueios de Rate Limit nos proxies gratuitos.
+        const p1 = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d1.toISOString().split('T')[0]);
+        const p2 = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d2.toISOString().split('T')[0]);
+        const p3 = await fetchHistoricoEstacao(Number(progStationId), 'DIAS_30', d3.toISOString().split('T')[0]);
+        
+        telemetryData = [...(p1||[]), ...(p2||[]), ...(p3||[])];
       } catch(e) {
         console.error("Telemetry failed", e);
       }
