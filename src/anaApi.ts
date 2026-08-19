@@ -15,7 +15,7 @@ export async function authenticateAna(forceRefresh = false) {
   }
 
   try {
-    const response = await fetch('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/OAUth/v1', {
+    const response = await fetch('https://corsproxy.io/?url=' + encodeURIComponent('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/OAUth/v1'), {
       method: 'GET',
       headers: {
         'Identificador': IDENTIFICADOR,
@@ -61,7 +61,7 @@ export async function fetchHistoricoEstacao(codigoEstacao: number, rangeDias: 'D
       params.append('Data de Busca (yyyy-MM-dd)', dataBusca);
     }
 
-    const response = await fetch('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString(), {
+    const response = await fetch('https://corsproxy.io/?url=' + encodeURIComponent('https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1?' + params.toString()), {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
