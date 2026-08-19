@@ -1022,7 +1022,7 @@ function AppContent() {
           modelo1: mod1 !== null ? Number(mod1.toFixed(2)) : null,
           modelo2: mod2 !== null ? Number(mod2.toFixed(2)) : null,
           // Valores absolutos para formar os blocos de Range Area (sem stackId)
-          negExtrema: [Number((media - 4.0 * std).toFixed(2)), Number((media - 2.0 * std).toFixed(2))],
+          negExtrema: [Number((media - 3.0 * std).toFixed(2)), Number((media - 2.0 * std).toFixed(2))],
           negSevera: [Number((media - 2.0 * std).toFixed(2)), Number((media - 1.5 * std).toFixed(2))],
           negModerada: [Number((media - 1.5 * std).toFixed(2)), Number((media - 1.0 * std).toFixed(2))],
           negLeve: [Number((media - 1.0 * std).toFixed(2)), Number((media - 0.5 * std).toFixed(2))],
@@ -1030,7 +1030,7 @@ function AppContent() {
           posLeve: [Number((media + 0.5 * std).toFixed(2)), Number((media + 1.0 * std).toFixed(2))],
           posModerada: [Number((media + 1.0 * std).toFixed(2)), Number((media + 1.5 * std).toFixed(2))],
           posSevera: [Number((media + 1.5 * std).toFixed(2)), Number((media + 2.0 * std).toFixed(2))],
-          posExtrema: [Number((media + 2.0 * std).toFixed(2)), Number((media + 4.0 * std).toFixed(2))],
+          posExtrema: [Number((media + 2.0 * std).toFixed(2)), Number((media + 3.0 * std).toFixed(2))],
           // Valores reais (limiares) para mostrar no Tooltip corretamente
           lim_negExtrema: Number(heightExtrema.toFixed(2)),
           lim_negSevera: Number((media - 1.5 * std).toFixed(2)),
@@ -1043,24 +1043,6 @@ function AppContent() {
           lim_posExtrema: Number((media + 3.0 * std).toFixed(2)),
         });
       }
-      
-      // Post-process para garantir que as extremidades pintem até o topo/fundo do gráfico
-      let globalMin = Infinity;
-      let globalMax = -Infinity;
-      rollingClim.forEach(d => {
-         const minPoint = Math.min(d.media - 3.0 * ((d.lim_normal - d.media) * 2), d.observado ?? Infinity);
-         const maxPoint = Math.max(d.media + 3.0 * ((d.lim_normal - d.media) * 2), d.observado ?? -Infinity);
-         if (minPoint < globalMin) globalMin = minPoint;
-         if (maxPoint > globalMax) globalMax = maxPoint;
-      });
-      // Adiciona uma margem
-      globalMin -= 50;
-      globalMax += 50;
-      
-      rollingClim.forEach(d => {
-         d.negExtrema[0] = globalMin;
-         d.posExtrema[1] = globalMax;
-      });
       
       setProgData(rollingClim);
       setProgProgress(100);
@@ -1684,7 +1666,13 @@ function AppContent() {
                   <ComposedChart data={progData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                     <XAxis dataKey="mes" tick={{ fontSize: 13, fill: '#64748b', fontWeight: 600 }} axisLine={false} tickLine={false} dy={15} />
-                    <YAxis domain={['auto', 'auto']} tick={{ fontSize: 13, fill: '#64748b' }} axisLine={false} tickLine={false} label={{ value: progDataType === 'cota' ? 'Cota (cm)' : 'Precipitação (mm)', angle: -90, position: 'insideLeft', offset: -10, fill: '#64748b', fontWeight: 'bold' }} />
+                    <YAxis 
+                      domain={[(dataMin: number) => Math.floor(dataMin / 100) * 100, (dataMax: number) => Math.ceil(dataMax / 100) * 100]} 
+                      tick={{ fontSize: 13, fill: '#64748b' }} 
+                      axisLine={false} 
+                      tickLine={false} 
+                      label={{ value: progDataType === 'cota' ? 'Cota (cm)' : 'Precipitação (mm)', angle: -90, position: 'insideLeft', offset: -10, fill: '#64748b', fontWeight: 'bold' }} 
+                    />
                     <RechartsTooltip 
                       trigger="click"
                       content={({ active, payload, label }) => {
