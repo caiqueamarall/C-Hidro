@@ -7,11 +7,20 @@ import { LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tool
 import { Settings, Download, Search, Layers, X, LineChart as LineChartIcon, RefreshCw, FileText, Activity, AlertTriangle, Table, Droplets, Map as MapIcon, Loader2, CloudRain, CloudLightning, Sun, HelpCircle, TrendingDown, Equal, TrendingUp, Menu, Calendar, Info, Clock, Waves } from 'lucide-react';
 
 const CHidroLogo = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    {/* Letra C */}
-    <path d="M 11 7 A 7 7 0 1 0 11 21" />
-    {/* Gota transpassando */}
-    <path d="M14 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C8 11.1 7 13 7 15a7 7 0 0 0 7 7z" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={className}>
+    {/* Gota centralizada e preenchida */}
+    <path 
+      d="M12 19C14.5 19 16.5 16.5 16.5 13.5C16.5 9.5 12 5 12 5C12 5 7.5 9.5 7.5 13.5C7.5 16.5 9.5 19 12 19Z" 
+      fill="#0cd48c" 
+    />
+    {/* Letra C grossa e branca envolvendo a gota */}
+    <path 
+      d="M 18 4 A 10 10 0 1 0 18 20" 
+      fill="none" 
+      stroke="white" 
+      strokeWidth="3.5" 
+      strokeLinecap="butt" 
+    />
   </svg>
 );
 import { motion, AnimatePresence } from 'framer-motion';
