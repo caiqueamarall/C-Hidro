@@ -1050,7 +1050,7 @@ function AppContent() {
         <div className="h-28 bg-[#424242] flex flex-col items-center justify-center p-2 shadow-md">
           <Droplets className="w-10 h-10 text-[#0cd48c]" />
           <div className="text-white text-center leading-tight mt-1">
-            <span className="text-[13px] font-light">Clone</span><br/>
+            <span className="text-[13px] font-light">C-</span><br/>
             <span className="text-[14px] font-bold">Hidro</span>
           </div>
         </div>
