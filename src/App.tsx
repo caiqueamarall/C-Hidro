@@ -1068,7 +1068,7 @@ function AppContent() {
         <div className="h-28 bg-[#424242] flex flex-col items-center justify-center p-2 shadow-md">
           <CHidroLogo className="w-10 h-10 text-[#0cd48c]" />
           <div className="text-white text-center leading-tight mt-1">
-            <span className="text-[14px] font-bold"><span className="font-light">C-</span>Hidro</span>
+            <span className="text-[14px] font-bold"><span className="text-[#0cd48c]">C-</span>Hidro</span>
           </div>
         </div>
 
