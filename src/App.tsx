@@ -673,7 +673,7 @@ function AppContent() {
   useEffect(() => {
     authenticateAna();
     
-    fetch('/estacoes.json')
+    fetch('estacoes.json')
       .then(res => res.json())
       .then(data => {
         const processedData = data.map((est: any) => ({
