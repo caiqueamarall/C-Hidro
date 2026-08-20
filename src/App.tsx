@@ -715,7 +715,9 @@ function AppContent() {
   useEffect(() => {
     if (!selectedStationId) return;
     
-    fetchHistoricoEstacao(Number(selectedStationId), 'DIAS_14')
+    // A API da ANA é instável quando não passamos a Data de Busca, então passamos a data de hoje.
+    const d = new Date();
+    fetchHistoricoEstacao(Number(selectedStationId), 'DIAS_14', d.toISOString().split('T')[0])
       .then(items => {
         if (items && items.length > 0) {
           const processed = processAnaData(items);
