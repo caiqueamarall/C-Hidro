@@ -2217,7 +2217,7 @@ function AppContent() {
                     </div>
                     
                     <div className="text-center text-[10px] text-slate-500 mt-5 mb-3">
-                      Data da medição: {new Date(estacao.dataHoraUltimaMedicao).toLocaleString('pt-BR')}h
+                      Data da medição: {estacao.dataHoraUltimaMedicao ? new Date(estacao.dataHoraUltimaMedicao.replace('Z', '')).toLocaleString('pt-BR') : ''}h
                     </div>
                     
                     <div className="flex gap-2">
