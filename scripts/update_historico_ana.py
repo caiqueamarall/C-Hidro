@@ -70,6 +70,12 @@ def main():
                 if resp.ok:
                     data = resp.json()
                     break
+                elif resp.status_code == 401:
+                    print("    -> Token expirado (Erro 401). Renovando token...")
+                    token = get_ana_token()
+                    if not token:
+                        print("    -> Falha ao renovar token. Abortando estação.")
+                        break
                 else:
                     print(f"    -> Erro {resp.status_code}. Tentando novamente...")
             except Exception as e:
