@@ -47,6 +47,46 @@ export async function authenticateAna(forceRefresh = false) {
 }
 
 export async function fetchHistoricoEstacao(codigoEstacao: number, rangeDias: 'DIAS_14' | 'DIAS_30' | 'DIAS_90' | 'DIAS_180' = 'DIAS_14', dataBusca?: string) {
+  // 1. Tentar ler do arquivo estático gerado pelo GitHub Actions (últimos 180 dias)
+  try {
+    const basePath = window.location.pathname.includes('/SipamClone') ? '/SipamClone' : '';
+    const res = await fetch(`${basePath}/historico/${codigoEstacao}.json`);
+    
+    if (res.ok) {
+      const items = await res.json();
+      if (items && items.length > 0) {
+        if (!dataBusca) {
+          return items;
+        } else {
+          // Se pediu uma dataBusca específica, filtra o arquivo estático
+          const targetDate = new Date(dataBusca + 'T00:00:00');
+          const rangeDaysMap = { 'DIAS_14': 14, 'DIAS_30': 30, 'DIAS_90': 90, 'DIAS_180': 180 };
+          const maxDays = rangeDaysMap[rangeDias] || 14;
+          
+          const targetEnd = new Date(targetDate);
+          targetEnd.setDate(targetEnd.getDate() + maxDays);
+          
+          const filtered = items.filter((item: any) => {
+            if (!item.Data_Hora_Medicao) return false;
+            let dStr = item.Data_Hora_Medicao;
+            if (dStr.endsWith('Z')) dStr = dStr.slice(0, -1);
+            const itemDate = new Date(dStr);
+            return itemDate >= targetDate && itemDate <= targetEnd;
+          });
+          
+          // Se encontrou dados suficientes para essa busca no estático, retorna!
+          // Se for uma busca antiga (ex: 2020), o filtered virá vazio e cairá no fallback
+          if (filtered.length > 0) {
+            return filtered;
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Estático indisponível, caindo para proxies...", err);
+  }
+
+  // 2. Fallback: Buscar da API oficial da ANA usando Proxies
   const token = await authenticateAna();
   if (!token) return [];
 
