@@ -11,20 +11,25 @@ ANA_SENHA = 'cr53pe56'
 
 def get_ana_token():
     print("Obtendo token da ANA...")
-    try:
-        auth_resp = requests.get(
-            'https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/OAUth/v1',
-            headers={'Identificador': ANA_IDENTIFICADOR, 'Senha': ANA_SENHA},
-            verify=False,
-            timeout=20
-        )
-        if auth_resp.ok:
-            return auth_resp.json().get('items', {}).get('tokenautenticacao')
-    except Exception as e:
-        print(f"Erro no token: {e}")
+    for attempt in range(5):
+        try:
+            auth_resp = requests.get(
+                'https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/OAUth/v1',
+                headers={'Identificador': ANA_IDENTIFICADOR, 'Senha': ANA_SENHA},
+                verify=False,
+                timeout=30
+            )
+            if auth_resp.ok:
+                return auth_resp.json().get('items', {}).get('tokenautenticacao')
+        except Exception as e:
+            print(f"Erro no token (tentativa {attempt+1}/5): {e}")
+        time.sleep(3)
     return None
 
 def main():
+    historico_dir = os.path.join('public', 'historico')
+    os.makedirs(historico_dir, exist_ok=True)
+    
     estacoes_path = os.path.join('public', 'estacoes.json')
     if not os.path.exists(estacoes_path):
         print("Arquivo estacoes.json não encontrado. Rode update_estacoes.py primeiro.")
@@ -40,9 +45,6 @@ def main():
         print("Falha ao obter token da ANA. Abortando.")
         return
         
-    historico_dir = os.path.join('public', 'historico')
-    os.makedirs(historico_dir, exist_ok=True)
-    
     url = 'https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroinfoanaSerieTelemetricaAdotada/v1'
     
     success_count = 0
