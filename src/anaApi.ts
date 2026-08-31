@@ -49,8 +49,7 @@ export async function authenticateAna(forceRefresh = false) {
 export async function fetchHistoricoEstacao(codigoEstacao: number, rangeDias: 'DIAS_14' | 'DIAS_30' | 'DIAS_90' | 'DIAS_180' = 'DIAS_14', dataBusca?: string) {
   // 1. Tentar ler do arquivo estático gerado pelo GitHub Actions (últimos 180 dias)
   try {
-    const basePath = window.location.pathname.includes('/SipamClone') ? '/SipamClone' : '';
-    const res = await fetch(`${basePath}/historico/${codigoEstacao}.json`);
+    const res = await fetch(`historico/${codigoEstacao}.json`);
     
     if (res.ok) {
       const items = await res.json();
