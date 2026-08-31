@@ -54,17 +54,17 @@ def main():
         params = {
             'Código da Estação': codigo,
             'Tipo Filtro Data': 'DATA_LEITURA',
-            'Range Intervalo de busca': 'DIAS_180'
+            'Range Intervalo de busca': 'DIAS_90'
         }
         
         print(f"[{i+1}/{len(estacoes)}] Buscando {codigo}...")
         
         # Retry mechanism for robustness
-        retries = 3
+        retries = 5
         data = None
         for attempt in range(retries):
             try:
-                resp = requests.get(url, params=params, headers={'Authorization': f'Bearer {token}'}, verify=False, timeout=15)
+                resp = requests.get(url, params=params, headers={'Authorization': f'Bearer {token}'}, verify=False, timeout=30)
                 if resp.ok:
                     data = resp.json()
                     break
@@ -72,7 +72,7 @@ def main():
                     print(f"    -> Erro {resp.status_code}. Tentando novamente...")
             except Exception as e:
                 print(f"    -> Exceção {e}")
-            time.sleep(2)
+            time.sleep(3)
             
         if data and 'items' in data:
             items = data['items']
