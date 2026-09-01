@@ -715,8 +715,10 @@ function AppContent() {
   useEffect(() => {
     if (!selectedStationId) return;
     
-    // A API da ANA é instável quando não passamos a Data de Busca, então passamos a data de hoje.
+    // A API da ANA trata a Data de Busca como DATA INICIAL.
+    // Para pegar os últimos 14 dias, precisamos passar a data de 14 dias atrás.
     const d = new Date();
+    d.setDate(d.getDate() - 14);
     fetchHistoricoEstacao(Number(selectedStationId), 'DIAS_14', d.toISOString().split('T')[0])
       .then(items => {
         if (items && items.length > 0) {
@@ -835,9 +837,11 @@ function AppContent() {
       setProgProgress(90);
       let telemetryData: any[] = [];
       try {
-        const d1 = new Date();
-        const d2 = new Date(); d2.setDate(d2.getDate() - 30);
-        const d3 = new Date(); d3.setDate(d3.getDate() - 60);
+        // A API da ANA trata Data de Busca como DATA INICIAL.
+        // Para pegar os últimos 90 dias com bloquinhos de 30, retrocedemos:
+        const d1 = new Date(); d1.setDate(d1.getDate() - 30);
+        const d2 = new Date(); d2.setDate(d2.getDate() - 60);
+        const d3 = new Date(); d3.setDate(d3.getDate() - 90);
         
         // Fazemos 3 requisições de 30 dias sequencialmente. 
         // Foi comprovado que a API da ANA responde bem a blocos de 30 dias com Data de Busca especificada.

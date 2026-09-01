@@ -59,8 +59,8 @@ def main():
         print(f"[{i+1}/{len(estacoes)}] Buscando {codigo} em blocos de 14 dias...")
         
         all_items = []
-        # Fazer 3 iterações de 14 dias para cobrir 42 dias (suficiente para Prognóstico e Boletins)
-        for chunk in range(3):
+        # Fazer 7 iterações de 14 dias para cobrir 98 dias (suficiente para Prognóstico que pede 90 dias)
+        for chunk in range(7):
             data_busca = (hoje - datetime.timedelta(days=14 * (chunk + 1))).strftime('%Y-%m-%d')
             
             params = {

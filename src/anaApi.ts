@@ -139,7 +139,7 @@ export async function downloadSerieHistorica(codigoEstacao: number, dataInicialS
   const startDate = new Date(dataInicialStr + 'T00:00:00');
   const endDate = new Date(dataFinalStr + 'T23:59:59');
   
-  let currentEnd = new Date(endDate);
+  let currentStart = new Date(startDate);
   const allItems: any[] = [];
   
   // Calculate total days for progress bar
@@ -147,9 +147,9 @@ export async function downloadSerieHistorica(codigoEstacao: number, dataInicialS
   let daysFetched = 0;
   
   const datesToFetch: string[] = [];
-  while (currentEnd >= startDate) {
-    datesToFetch.push(currentEnd.toISOString().split('T')[0]);
-    currentEnd.setDate(currentEnd.getDate() - 30);
+  while (currentStart <= endDate) {
+    datesToFetch.push(currentStart.toISOString().split('T')[0]);
+    currentStart.setDate(currentStart.getDate() + 30);
   }
   
   // Batch requests to speed up (reduce size to prevent rate limiting/freezing)
