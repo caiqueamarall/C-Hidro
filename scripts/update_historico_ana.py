@@ -56,7 +56,7 @@ def main():
         params = {
             'Código da Estação': codigo,
             'Tipo Filtro Data': 'DATA_LEITURA',
-            'Range Intervalo de busca': 'DIAS_90'
+            'Range Intervalo de busca': 'DIAS_30'
         }
         
         print(f"[{i+1}/{len(estacoes)}] Buscando {codigo}...")
@@ -77,7 +77,7 @@ def main():
                         print("    -> Falha ao renovar token. Abortando estação.")
                         break
                 else:
-                    print(f"    -> Erro {resp.status_code}. Tentando novamente...")
+                    print(f"    -> Erro {resp.status_code}. Mensagem: {resp.text[:100]}... Tentando novamente...")
             except Exception as e:
                 print(f"    -> Exceção {e}")
             time.sleep(3)
