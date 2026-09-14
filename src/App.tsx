@@ -715,14 +715,16 @@ function AppContent() {
   useEffect(() => {
     if (!selectedStationId) return;
     
-    // A API da ANA trata a Data de Busca como DATA INICIAL.
-    // Para pegar os últimos 14 dias, precisamos passar a data de 14 dias atrás.
-    const d = new Date();
-    d.setDate(d.getDate() - 14);
-    fetchHistoricoEstacao(Number(selectedStationId), 'DIAS_14', d.toISOString().split('T')[0])
+    // Removemos a data inicial forçada para garantir que pegamos os últimos 14 dias REAIS de dados.
+    // Muitas estações atrasam a transmissão por semanas, então "14 dias atrás" pode não ter nenhum dado.
+    fetchHistoricoEstacao(Number(selectedStationId), 'DIAS_14', undefined)
       .then(items => {
         if (items && items.length > 0) {
-          const processed = processAnaData(items);
+          let processed = processAnaData(items);
+          // O arquivo estático pode ter até 98 dias. Cortamos para exibir apenas os últimos 14 dias disponíveis.
+          if (processed.length > 14) {
+             processed = processed.slice(-14);
+          }
           setHistoricalData(processed);
         } else {
           // Em vez de dados falsos, usamos a cota mais recente disponível no mapa (se existir)
