@@ -61,7 +61,7 @@ def main():
         all_items = []
         # Fazer 7 iterações de 14 dias para cobrir 98 dias (suficiente para Prognóstico que pede 90 dias)
         for chunk in range(7):
-            data_busca = (hoje - datetime.timedelta(days=14 * (chunk + 1))).strftime('%Y-%m-%d')
+            data_busca = (hoje - datetime.timedelta(days=14 * chunk)).strftime('%Y-%m-%d')
             
             params = {
                 'Código da Estação': codigo,
