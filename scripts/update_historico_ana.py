@@ -78,7 +78,9 @@ def main():
                     resp = requests.get(url, params=params, headers={'Authorization': f'Bearer {token}'}, verify=False, timeout=20)
                     if resp.ok:
                         data = resp.json()
-                        if 'items' in data:
+                        if isinstance(data, list):
+                            chunk_items = data
+                        elif isinstance(data, dict) and 'items' in data:
                             chunk_items = data['items']
                         break
                     elif resp.status_code == 401:
